@@ -1,0 +1,222 @@
+# Cursor AI Assistant Rules
+
+## Web Development Standards
+
+### Package Manager
+- **ALWAYS use pnpm** instead of npm or yarn for all web projects
+- Use `pnpm install` instead of `npm install`
+- Use `pnpm add` instead of `npm install <package>`
+- Use `pnpm run` for running scripts
+- Create `pnpm-lock.yaml` files, never `package-lock.json` or `yarn.lock`
+
+### Language Preferences
+- **ALWAYS use TypeScript** instead of JavaScript for web development
+- Use `.ts` and `.tsx` file extensions, never `.js` or `.jsx`
+- Always include proper TypeScript configuration (`tsconfig.json`)
+- Use strict TypeScript settings for better type safety
+- Include type definitions for all dependencies (`@types/*` packages)
+
+### Project Structure
+- Set up proper TypeScript build processes (webpack, vite, etc.)
+- Include source maps for debugging
+- Use ES modules (`import`/`export`) instead of CommonJS (`require`)
+- Set `"type": "module"` in package.json when appropriate
+
+### Code Quality
+- Use strict TypeScript compiler options:
+  - `"strict": true`
+  - `"noImplicitAny": true`
+  - `"strictNullChecks": true`
+  - `"noImplicitReturns": true`
+- Prefer explicit typing over `any`
+- Use definite assignment assertions (`!`) only when necessary
+- Include proper error handling with typed exceptions
+
+### Framework Specific
+- **React**: Use `.tsx` files, typed props interfaces, and React.FC when appropriate
+- **Node.js**: Use TypeScript with proper module resolution
+- **Chrome Extensions**: Use TypeScript with Chrome API types (`@types/chrome`)
+- **Express/NestJS**: Use TypeScript decorators and proper DTO typing
+
+### Build and Development
+- Always set up development and production build scripts
+- Use modern bundlers (webpack 5+, vite, etc.) with TypeScript support
+- Include hot reloading for development
+- Set up proper linting (ESLint with TypeScript rules)
+
+### Examples
+
+#### Package.json setup:
+```json
+{
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm run start:dev",
+    "build": "pnpm run build:prod",
+    "install": "pnpm install"
+  },
+  "packageManager": "pnpm@9.0.0"
+}
+```
+
+#### Always prefer TypeScript:
+```typescript
+// ✅ Good - TypeScript with proper typing
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+const fetchUser = async (id: string): Promise<User> => {
+  // implementation
+};
+
+// ❌ Bad - JavaScript without types
+const fetchUser = async (id) => {
+  // implementation
+};
+```
+
+#### Always use pnpm commands:
+```bash
+# ✅ Good
+pnpm install
+pnpm add express @types/express
+pnpm run dev
+
+# ❌ Bad
+npm install
+npm install express @types/express
+npm run dev
+```
+
+## Exceptions
+- Only use JavaScript if explicitly requested by the user
+- Only use npm/yarn if the project already has existing lock files and the user specifically requests to maintain them
+- Legacy projects may require JavaScript, but always suggest TypeScript migration when possible
+
+## Git Workflow Standards
+
+### Repository Setup
+- **ALWAYS ask for git URL** before starting any project
+- **Verify repository access** and check if username is "FictionFoxy"
+- **Clone properly** with correct remote origin setup
+- **Check existing branches** and understand the current workflow
+
+### Commit Standards
+- **Commit often and atomically** - each commit should represent one logical change
+- **Use conventional commit format**:
+  ```
+  type(scope): description
+  
+  feat: add new feature
+  fix: bug fix
+  docs: documentation changes
+  style: formatting, missing semicolons, etc.
+  refactor: code change that neither fixes bug nor adds feature
+  test: adding missing tests
+  chore: updating build tasks, package manager configs, etc.
+  ```
+
+### Branching Strategy
+- **Use feature branches** for new features: `feature/feature-name`
+- **Use fix branches** for bug fixes: `fix/bug-description`
+- **Use hotfix branches** for urgent fixes: `hotfix/critical-issue`
+- **Keep main/master clean** - never commit directly to main
+- **Delete branches** after merging to keep repository clean
+
+### Auto-Push Rules
+- **IF repository owner is "FictionFoxy"**: Auto-push after every commit
+- **IF repository owner is NOT "FictionFoxy"**: Ask before pushing
+- **Always check git status** before and after operations
+- **Verify remote tracking** is set up correctly
+
+### Commit Workflow
+1. **Stage changes atomically**: `git add` specific files for each logical change
+2. **ALWAYS check staged files**: Run `git status` and review the file list before committing
+3. **Review changes** before committing: `git diff --staged` to see actual changes
+4. **Write descriptive commits**: Include what and why, not just what
+5. **Push immediately** if FictionFoxy repo, otherwise ask
+6. **Keep commits small** - prefer multiple small commits over large ones
+
+### Branch Management
+- **Create feature branch**: `git checkout -b feature/new-feature`
+- **Regular rebasing**: Keep feature branches up to date with main
+- **Clean history**: Use interactive rebase when needed
+- **Merge strategy**: Prefer merge commits for features, rebase for small fixes
+
+### Examples
+
+#### Starting a new project:
+```bash
+# Ask user: "What's the git repository URL for this project?"
+# Check if username contains "FictionFoxy"
+git clone <repo-url>
+cd <project-name>
+git checkout -b feature/initial-setup
+# Make changes
+git add .
+git commit -m "feat: initial project setup with TypeScript and pnpm"
+# If FictionFoxy repo: git push -u origin feature/initial-setup
+```
+
+#### Feature development:
+```bash
+git checkout -b feature/user-authentication
+# Implement auth service
+git add src/auth/auth.service.ts
+git status  # ALWAYS check what's staged
+git diff --staged  # Review the actual changes
+git commit -m "feat(auth): add user authentication service"
+# Add auth controller
+git add src/auth/auth.controller.ts  
+git status  # Check staged files again
+git diff --staged  # Review changes
+git commit -m "feat(auth): add authentication controller with login/logout"
+# Add tests
+git add src/auth/auth.service.spec.ts
+git status  # Verify only test files are staged
+git commit -m "test(auth): add unit tests for authentication service"
+# If FictionFoxy repo: git push origin feature/user-authentication
+```
+
+#### Bug fixes:
+```bash
+git checkout -b fix/login-validation
+# Fix the issue
+git add src/auth/validation.ts
+git status  # Check what files are staged
+git diff --staged  # Review the fix changes
+git commit -m "fix(auth): resolve email validation regex issue"
+# If FictionFoxy repo: git push origin fix/login-validation
+```
+
+### Git Hooks & Automation
+- **Pre-commit hooks**: Run linting and tests before commits
+- **Commit message validation**: Ensure conventional commit format
+- **Auto-formatting**: Run prettier/eslint before commits
+- **Branch protection**: Never allow direct pushes to main
+
+### Repository Verification Process
+1. **Ask for git URL**: "Please provide the git repository URL for this project"
+2. **Parse repository info**: Extract username, repo name, and access level
+3. **Verify access**: Test clone/push permissions
+4. **Set up workflow**: Configure appropriate push behavior based on ownership
+5. **Create initial branch**: Set up proper branching structure
+
+### Error Handling
+- **Always check git status** before operations
+- **Handle merge conflicts** gracefully with clear instructions
+- **Verify pushes succeeded** before continuing
+- **Rollback capability**: Know how to undo commits/pushes if needed
+
+## Priority Order
+1. TypeScript over JavaScript (always)
+2. pnpm over npm/yarn (always)  
+3. Git workflow compliance (always ask for repo URL first)
+4. Atomic commits with conventional format
+5. Auto-push for FictionFoxy repos, ask for others
+6. Modern ES modules over CommonJS
+7. Strict typing over loose typing
+8. Explicit configuration over implicit defaults

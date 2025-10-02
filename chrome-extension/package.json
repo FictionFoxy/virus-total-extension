@@ -1,0 +1,22 @@
+{
+  "name": "virustotal-chrome-extension",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Chrome extension for scanning URLs with VirusTotal API",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "build:fast": "webpack --mode=development",
+    "dev": "webpack --mode=development --watch",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.246",
+    "@types/node": "^20.8.0",
+    "copy-webpack-plugin": "^11.0.0",
+    "rimraf": "^5.0.5",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
