@@ -42,7 +42,7 @@ export default (env, argv) => {
     optimization: {
       minimize: !isDev,
     },
-    devtool: isDev ? 'eval-source-map' : false,
+    devtool: isDev ? 'source-map' : false,
     cache: {
       type: 'filesystem',
       buildDependencies: {
